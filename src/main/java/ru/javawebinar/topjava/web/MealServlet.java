@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -23,25 +25,15 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class MealServlet extends HttpServlet {
     private static final Logger log = getLogger(MealServlet.class);
 
-    MealWithExceed mealWithExceed;
+
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.debug("you on my page / redirect to Meals");
 
-
-       MealsUtil.getFilteredWithExceeded(MealsUtil.createWithExceed(List<Meal> meals, int caloriesPerDay))
-
-        resp.sendRedirect("/meals.jsp");
-
-
-
-        request.setAttribute("products", products); // Will be available as ${products} in JSP
-        request.getRequestDispatcher("/WEB-INF/products.jsp").forward(request, response);
-
-        List<Meal> meals = productService.list();
-        request.setAttribute("products", products); // Will be available as ${products} in JSP
-
+        req.setAttribute("listOfMeal", MealsUtil.getWithExceeded(MealsUtil.MEALS, MealsUtil.DEFAULT_CALORIES_PER_DAY));
+        req.getRequestDispatcher("/meals.jsp").forward(req, resp);
 
     }
 
